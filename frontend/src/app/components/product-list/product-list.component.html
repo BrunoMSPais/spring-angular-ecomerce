@@ -1,27 +1,25 @@
-<table class="table table-responsive table-hover">
-  <thead class="table-dark">
-    <tr style="vertical-align: middle">
-      <th class="text-center">Image</th>
-      <th>Name</th>
-      <th class="text-center">Unit Price</th>
-      <th class="text-center">Units In Stock</th>
-    </tr>
-  </thead>
-  <tbody class="align-middle">
-    <tr *ngFor="let tempProduct of products">
-      <td>
-        <img
-          [src]="tempProduct.imageUrl"
-          alt="{{ tempProduct.name }}"
-          class="img-thumbnail"
-          style="height: 50px"
-        />
-      </td>
-      <td>{{ tempProduct.name }}</td>
-      <td class="text-center">
-        {{ tempProduct.unitPrice | currency : "USD" }}
-      </td>
-      <td class="text-center">{{ tempProduct.unitsInStock }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- loop over the collection of products -->
+        <div class="col-md-3" *ngFor="let tempProduct of products">
+          <div class="product-box">
+            <img
+              src="{{ tempProduct.imageUrl }}"
+              alt="{{ tempProduct.name }}"
+              class="img-responsive"
+            />
+            <h1>{{ tempProduct.name }}</h1>
+            <div class="price">
+              {{ tempProduct.unitPrice | currency : "USD" }}
+              <a href="#" class="primary-btn" style="text-decoration: none">
+                Add to cart
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
