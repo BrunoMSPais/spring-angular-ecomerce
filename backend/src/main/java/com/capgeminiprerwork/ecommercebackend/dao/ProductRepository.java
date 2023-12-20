@@ -10,5 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin("http://localhost:4200") // allow Angular app to access this endpoint
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
+    Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);    // select * from product where category_id = :id
+
+    Page<Product> findByNameContaining(@Param("name") String name, Pageable pageable);  // select * from product where name like CONCAT('%', :name, '%')
 }
