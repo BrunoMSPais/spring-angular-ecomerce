@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { Product } from '../common/product';
 
@@ -13,7 +13,9 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getProductList(): Observable<Product[]> {
+  getProductList(categoryId: number): Observable<Product[]> {
+    // TODO: need to build URL based on category id
+
     return this.httpClient
       .get<GetResponse>(this.baseUrl)
       .pipe(map((response) => response._embedded.products));
