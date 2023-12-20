@@ -13,11 +13,15 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getProductList(categoryId: number): Observable<Product[]> {
-    // TODO: need to build URL based on category id
+  // Get products for a given category id or all products if no category id (categoryId?: number -> means optional parameter of type number)
+  getProductList(categoryId?: number): Observable<Product[]> {
+    // URL based on category id
+    const searchUrl = categoryId
+      ? `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
+      : this.baseUrl + '?size=100'; // URL for the first 100 products including all categories
 
     return this.httpClient
-      .get<GetResponse>(this.baseUrl)
+      .get<GetResponse>(searchUrl)
       .pipe(map((response) => response._embedded.products));
   }
 }
