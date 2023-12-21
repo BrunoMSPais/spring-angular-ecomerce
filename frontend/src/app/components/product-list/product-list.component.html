@@ -47,7 +47,7 @@
       >
         No products found!
       </div>
-      <div class="flex flex-to-right mt-5">
+      <div class="flex flex-to-right mt-5" *ngIf="theTotalElements > 5">
         <div class="footer-pagination">
           <ngb-pagination
             [(page)]="thePageNumber"

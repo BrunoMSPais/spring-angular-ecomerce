@@ -15,6 +15,7 @@ export class ProductListComponent implements OnInit {
   currentCategoryId: number | undefined;
   currentCategoryName: string = '';
   searchMode: boolean = false;
+  previousKeyword: string = '';
 
   // Pagination properties
   thePageNumber: number = 1;
@@ -39,7 +40,8 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
-    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    // this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    this.searchMode = this.route.snapshot.paramMap.has('keyword')!;
 
     if (this.searchMode) {
       this.handleSearchProducts();
@@ -53,10 +55,29 @@ export class ProductListComponent implements OnInit {
     this.currentCategoryName = `Search for "${theKeyword}"`;
     this.currentCategoryId = undefined;
 
+    // if we have a different keyword than previous
+    // then set thePageNumber to 1
+    if (this.previousKeyword != theKeyword) {
+      this.thePageNumber = 1;
+    }
+    this.previousKeyword = theKeyword;
+    console.log(
+      `keyword = ${theKeyword}, thePageNumber = ${this.thePageNumber}`
+    );
+
     // search for the products using keyword
-    this.productService.searchProducts(theKeyword).subscribe((data) => {
-      this.products = data;
-    });
+    // this.productService.searchProducts(theKeyword).subscribe((data) => {
+    //   this.products = data;
+    // });
+
+    // now get the products for the given category id
+    this.productService
+      .searchProductsPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        theKeyword
+      )
+      .subscribe(this.processResult());
   }
 
   handleListProducts() {
@@ -100,11 +121,15 @@ export class ProductListComponent implements OnInit {
         this.thePageSize,
         this.currentCategoryId
       )
-      .subscribe((data) => {
-        this.products = data._embedded.products;
-        this.thePageNumber = data.page.number + 1; // Spring Data REST page numbers start with 0 so add 1 to offset that
-        this.thePageSize = data.page.size;
-        this.theTotalElements = data.page.totalElements;
-      });
+      .subscribe(this.processResult());
+  }
+
+  processResult() {
+    return (data: any) => {
+      this.products = data._embedded.products;
+      this.thePageNumber = data.page.number + 1; // Spring Data REST page numbers start with 0 so add 1 to offset that
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    };
   }
 }
