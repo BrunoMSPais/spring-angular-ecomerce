@@ -1,7 +1,14 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
-    <h4 *ngIf="currentCategoryName != ''">
-      Category: {{ currentCategoryName }}
+    <h4
+      *ngIf="
+        currentCategoryName != '' && !currentCategoryName.includes('Search')
+      "
+    >
+      Category: {{ currentCategoryName.replace("-", " ") }}
+    </h4>
+    <h4 *ngIf="currentCategoryName.includes('Search')">
+      {{ currentCategoryName }}
     </h4>
     <h4 *ngIf="currentCategoryName == ''">All Products</h4>
     <hr />
@@ -24,6 +31,15 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- if products are not found display a message -->
+      <div
+        class="alert alert-warning"
+        *ngIf="products?.length == 0"
+        role="alert"
+      >
+        No products found!
       </div>
     </div>
   </div>

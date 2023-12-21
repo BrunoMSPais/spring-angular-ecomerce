@@ -7,7 +7,7 @@
       <li *ngFor="let tempProductCategory of productCategories">
         <a
           routerLink="/category/{{ tempProductCategory.id }}/{{
-            tempProductCategory.categoryName
+            tempProductCategory.categoryName.replace(' ', '-')
           }}"
           routerLinkActive="active-link"
         >
