@@ -16,6 +16,7 @@
       <div class="row">
         <!-- loop over the collection of products -->
         <div class="col-sm-3 mb-4" *ngFor="let tempProduct of products">
+          <!-- TODO: extract to own component -->
           <div class="product-box">
             <a routerLink="/products/{{ tempProduct?.id }}">
               <img
@@ -32,9 +33,12 @@
             <p class="price">
               {{ tempProduct.unitPrice | currency : "USD" }}
             </p>
-            <a href="#" class="primary-btn" style="text-decoration: none">
+            <button
+              class="btn btn-primary btn-sm"
+              (click)="addToCart(tempProduct)"
+            >
               Add to cart
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -47,6 +51,8 @@
       >
         No products found!
       </div>
+
+      <!-- TODO: extract to own component -->
       <div class="flex flex-to-right mt-5" *ngIf="theTotalElements > 5">
         <div class="footer-pagination">
           <ngb-pagination

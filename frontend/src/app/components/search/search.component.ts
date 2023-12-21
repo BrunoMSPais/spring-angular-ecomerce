@@ -10,7 +10,6 @@ export class SearchComponent {
   constructor(private route: Router) {}
 
   doSearch(value: string) {
-    console.log(`value=${value}`);
     this.route.navigateByUrl(`/search/${value}`);
   }
 }

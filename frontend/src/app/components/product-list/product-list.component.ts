@@ -61,9 +61,6 @@ export class ProductListComponent implements OnInit {
       this.thePageNumber = 1;
     }
     this.previousKeyword = theKeyword;
-    console.log(
-      `keyword = ${theKeyword}, thePageNumber = ${this.thePageNumber}`
-    );
 
     // search for the products using keyword
     // this.productService.searchProducts(theKeyword).subscribe((data) => {
@@ -107,12 +104,6 @@ export class ProductListComponent implements OnInit {
     }
 
     this.previousCategoryId = this.currentCategoryId;
-    console.log(
-      'currentCategoryId = ' +
-        this.currentCategoryId +
-        ', thePageNumber = ' +
-        this.thePageNumber
-    );
 
     // now get the products for the given category id
     this.productService
@@ -131,5 +122,11 @@ export class ProductListComponent implements OnInit {
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
     };
+  }
+
+  addToCart(theProduct: Product) {
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+
+    // TODO ... apply logic to add product to cart
   }
 }
