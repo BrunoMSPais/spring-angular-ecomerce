@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
@@ -28,7 +29,12 @@ const routes: Routes = [
     SearchComponent,
     ProductDetailsComponent,
   ],
-  imports: [RouterModule.forRoot(routes), BrowserModule, HttpClientModule],
+  imports: [
+    RouterModule.forRoot(routes),
+    BrowserModule,
+    HttpClientModule,
+    NgbModule,
+  ],
   providers: [ProductService],
   bootstrap: [AppComponent],
 })

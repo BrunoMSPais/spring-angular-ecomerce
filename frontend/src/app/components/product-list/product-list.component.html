@@ -48,6 +48,16 @@
       >
         No products found!
       </div>
+      <div class="flex-to-right">
+        <div class="footer-pagination">
+          <ngb-pagination
+            [(page)]="thePageNumber"
+            [pageSize]="thePageSize"
+            [collectionSize]="theTotalElements"
+            (pageChange)="listProducts()"
+          ></ngb-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </div>

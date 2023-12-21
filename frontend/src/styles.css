@@ -110,6 +110,13 @@ a:hover {
 }
 
 /*Layout Css*/
+.flex-to-right {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .section-content-p35 {
   padding: 0 35px;
 }
@@ -988,6 +995,7 @@ footer ul li {
   }
   .footer-pagination {
     text-align: center;
+    margin-left: auto;
   }
   .product-box {
     text-align: center;
