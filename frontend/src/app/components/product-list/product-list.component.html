@@ -17,18 +17,25 @@
         <!-- loop over the collection of products -->
         <div class="col-md-3" *ngFor="let tempProduct of products">
           <div class="product-box">
-            <img
-              src="{{ tempProduct.imageUrl }}"
-              alt="{{ tempProduct.name }}"
-              class="img-responsive"
-            />
-            <h1>{{ tempProduct.name }}</h1>
+            <a routerLink="/products/{{ tempProduct?.id }}">
+              <img
+                src="{{ tempProduct.imageUrl }}"
+                alt="{{ tempProduct.name }}"
+                class="img-responsive"
+              />
+            </a>
+
+            <a routerLink="/products/{{ tempProduct?.id }}">
+              <h1>{{ tempProduct.name }}</h1>
+            </a>
+
             <div class="price">
               {{ tempProduct.unitPrice | currency : "USD" }}
-              <a href="#" class="primary-btn" style="text-decoration: none">
-                Add to cart
-              </a>
             </div>
+
+            <a href="#" class="primary-btn" style="text-decoration: none">
+              Add to cart
+            </a>
           </div>
         </div>
       </div>

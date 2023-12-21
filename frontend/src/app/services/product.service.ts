@@ -3,17 +3,25 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
+import { Product } from '../common/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8080/api/products';
   private categoryUrl = 'http://localhost:8080/api/product-category';
+  private baseUrl = 'http://localhost:8080/api/products';
 
   constructor(private httpClient: HttpClient) {}
+
+  // Get product by id
+  getProduct(theProductId: number): Observable<Product> {
+    // URL based on product id
+    const productUrl = `${this.baseUrl}/${theProductId}`;
+
+    return this.httpClient.get<Product>(productUrl);
+  }
 
   // Get products for a given category id or all products if no category id (categoryId?: number -> means optional parameter of type number)
   getProductList(categoryId?: number): Observable<Product[]> {
