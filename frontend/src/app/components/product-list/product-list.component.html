@@ -15,7 +15,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- loop over the collection of products -->
-        <div class="col-md-3" *ngFor="let tempProduct of products">
+        <div class="col-sm-3 mb-4" *ngFor="let tempProduct of products">
           <div class="product-box">
             <a routerLink="/products/{{ tempProduct?.id }}">
               <img
@@ -29,10 +29,9 @@
               <h1>{{ tempProduct.name }}</h1>
             </a>
 
-            <div class="price">
+            <p class="price">
               {{ tempProduct.unitPrice | currency : "USD" }}
-            </div>
-
+            </p>
             <a href="#" class="primary-btn" style="text-decoration: none">
               Add to cart
             </a>
@@ -48,14 +47,26 @@
       >
         No products found!
       </div>
-      <div class="flex-to-right">
+      <div class="flex flex-to-right mt-5">
         <div class="footer-pagination">
           <ngb-pagination
             [(page)]="thePageNumber"
             [pageSize]="thePageSize"
             [collectionSize]="theTotalElements"
+            [maxSize]="5"
+            [boundaryLinks]="true"
             (pageChange)="listProducts()"
           ></ngb-pagination>
+        </div>
+
+        <div>
+          <span class="me-2">Items per page</span>
+          <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+            <option selected value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+          </select>
         </div>
       </div>
     </div>
