@@ -1,5 +1,7 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
+    <!-- PRODUCT PAGE TITLE -->
+    <!-- Costume category title -->
     <h4
       *ngIf="
         currentCategoryName != '' && !currentCategoryName.includes('Search')
@@ -7,42 +9,51 @@
     >
       Category: {{ currentCategoryName.replace("-", " ") }}
     </h4>
+
+    <!-- Search result title -->
     <h4 *ngIf="currentCategoryName.includes('Search')">
       {{ currentCategoryName }}
     </h4>
+
+    <!-- All products page -->
     <h4 *ngIf="currentCategoryName == ''">All Products</h4>
+
     <hr />
+
     <div class="container-fluid">
       <div class="row">
         <!-- loop over the collection of products -->
         <div class="col-sm-3 mb-4" *ngFor="let tempProduct of products">
           <!-- TODO: extract to own component -->
-          <div class="product-box">
+          <div class="card" style="min-height: 34rem">
             <a routerLink="/products/{{ tempProduct?.id }}">
               <img
                 src="{{ tempProduct.imageUrl }}"
                 alt="{{ tempProduct.name }}"
-                class="img-responsive"
+                class="card-img-top"
               />
             </a>
+            <div class="card-body flex flex-column">
+              <a routerLink="/products/{{ tempProduct?.id }}" class="card-link">
+                <h3 class="card-title">{{ tempProduct.name }}</h3>
+              </a>
 
-            <a routerLink="/products/{{ tempProduct?.id }}">
-              <h1>{{ tempProduct.name }}</h1>
-            </a>
-
-            <p class="price">
-              {{ tempProduct.unitPrice | currency : "USD" }}
-            </p>
-            <button
-              class="btn btn-primary btn-sm"
-              (click)="addToCart(tempProduct)"
-            >
-              Add to cart
-            </button>
+              <!-- <p class="price"> -->
+              <p class="card-subtitle mb-auto">
+                {{ tempProduct.unitPrice | currency : "USD" }}
+              </p>
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="addToCart(tempProduct)"
+              >
+                Add to cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- TODO: extract to own component -->
       <!-- if products are not found display a message -->
       <div
         class="alert alert-warning"

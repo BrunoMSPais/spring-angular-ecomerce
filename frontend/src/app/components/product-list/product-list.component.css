@@ -1,3 +1,13 @@
-tr:nth-of-type(even) {
-  --bs-table-bg: rgba(18, 18, 18, 0.022);
+.card-link {
+  text-decoration: none;
+}
+
+.card-link:hover > h3,
+.card-link:focus > h3 {
+  color: #0da8e4 !important;
+}
+
+.card-link:focus {
+  outline: 3px solid #0da8e4 !important;
+  outline-offset: 6px !important;
 }
