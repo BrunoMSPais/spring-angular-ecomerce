@@ -2,21 +2,21 @@
   <div class="section-content section-content-p30">
     <!-- PRODUCT PAGE TITLE -->
     <!-- Costume category title -->
-    <h4
+    <h3
       *ngIf="
         currentCategoryName != '' && !currentCategoryName.includes('Search')
       "
     >
       Category: {{ currentCategoryName.replace("-", " ") }}
-    </h4>
+    </h3>
 
     <!-- Search result title -->
-    <h4 *ngIf="currentCategoryName.includes('Search')">
+    <h3 *ngIf="currentCategoryName.includes('Search')">
       {{ currentCategoryName }}
-    </h4>
+    </h3>
 
     <!-- All products page -->
-    <h4 *ngIf="currentCategoryName == ''">All Products</h4>
+    <h3 *ngIf="currentCategoryName == ''">All Products</h3>
 
     <hr />
 
