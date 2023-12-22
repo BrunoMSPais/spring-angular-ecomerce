@@ -40,6 +40,7 @@
                   <div class="col">
                     <button
                       class="btn btn-primary btn-sm"
+                      title="decrease items"
                       (click)="decrementQuantity(item)"
                     >
                       <i class="fa fa-minus"></i>
@@ -49,16 +50,18 @@
                   <div class="col ml-4 mr-2">{{ item.quantity }}</div>
 
                   <div class="col">
-                    <button class="btn btn-primary btn-sm">
-                      <i
-                        class="fa fa-plus"
-                        (click)="incrementQuantity(item)"
-                      ></i>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      title="increase items"
+                      (click)="incrementQuantity(item)"
+                    >
+                      <i class="fa fa-plus"></i>
                     </button>
                   </div>
                   <div class="col-8">
                     <button
                       class="btn btn-danger btn-sm"
+                      title="remove from cart"
                       (click)="remove(item)"
                     >
                       <i class="fa fa-trash"></i>
@@ -78,6 +81,7 @@
               <p>Total Quantity: {{ totalQuantity }}</p>
               <p>Shipping: FREE</p>
               <p>Total Price: {{ totalPrice | currency : "USD" }}</p>
+              <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
             </td>
           </tr>
         </tbody>
