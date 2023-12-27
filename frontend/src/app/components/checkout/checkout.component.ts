@@ -8,6 +8,7 @@ import {
 
 import { Luv2ShopFormService } from '../../services/luv2-shop-form.service';
 import { Luv2ShopValidators } from '../../common/luv2-shop-validators';
+import { CartService } from '../../services/cart.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 
@@ -32,10 +33,12 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private luv2ShopFromService: Luv2ShopFormService
+    private luv2ShopFromService: Luv2ShopFormService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    // build the form
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -110,6 +113,9 @@ export class CheckoutComponent implements OnInit {
         expirationYear: new Date().getFullYear(),
       }),
     });
+
+    // subscribe to cartService.totalQuantity and cartService.totalPrice
+    this.reviewCartDetails();
 
     // populate credit card months
     const startMonth: number = new Date().getMonth() + 1;
@@ -216,6 +222,18 @@ export class CheckoutComponent implements OnInit {
       // select first item by default
       formGroup?.get('state')?.setValue(data[0]);
     });
+  }
+
+  reviewCartDetails() {
+    // subscribe to the cart totalPrice
+    this.cartService.totalPrice.subscribe(
+      (totalPrice) => (this.totalPrice = totalPrice)
+    );
+
+    // subscribe to the cart totalQuantity
+    this.cartService.totalQuantity.subscribe(
+      (totalQuantity) => (this.totalQuantity = totalQuantity)
+    );
   }
 
   // getters for form controls
