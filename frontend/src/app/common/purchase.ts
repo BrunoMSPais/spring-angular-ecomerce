@@ -9,4 +9,5 @@ export class Purchase {
   billingAddress: Address = new Address();
   order: Order = new Order();
   orderItems: OrderItem[] = [];
+  orderTrackingNumber: string = '';
 }
