@@ -11,3 +11,8 @@
   outline: 3px solid #0da8e4 !important;
   outline-offset: 6px !important;
 }
+
+.card-title {
+  height: 7ch;
+  overflow: hidden;
+}

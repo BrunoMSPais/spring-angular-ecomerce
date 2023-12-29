@@ -39,6 +39,7 @@ build/
 
 ### Custom ###
 *.properties
+**/my-app-config.ts
 
 # Compiled output
 /dist
