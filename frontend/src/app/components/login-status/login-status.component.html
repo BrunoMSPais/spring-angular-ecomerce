@@ -22,4 +22,13 @@
   >
     Logout
   </button>
+
+  <button
+    type="button"
+    *ngIf="isAuthenticated"
+    routerLink="/members"
+    class="security-btn"
+  >
+    Members
+  </button>
 </div>

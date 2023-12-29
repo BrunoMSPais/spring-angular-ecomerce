@@ -4,6 +4,7 @@
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
+  gap: 0.5rem;
 }
 
 .login-status-user-info {
