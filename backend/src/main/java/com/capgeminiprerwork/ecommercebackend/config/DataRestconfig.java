@@ -1,9 +1,6 @@
 package com.capgeminiprerwork.ecommercebackend.config;
 
-import com.capgeminiprerwork.ecommercebackend.entity.Product;
-import com.capgeminiprerwork.ecommercebackend.entity.ProductCategory;
-import com.capgeminiprerwork.ecommercebackend.entity.Country;
-import com.capgeminiprerwork.ecommercebackend.entity.State;
+import com.capgeminiprerwork.ecommercebackend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +36,7 @@ class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
         disableHttpMethods(Country.class, config, theUnsupportedActions);
         disableHttpMethods(State.class, config, theUnsupportedActions);
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
 
         // call an internal helper method
         exposeIds(config);
