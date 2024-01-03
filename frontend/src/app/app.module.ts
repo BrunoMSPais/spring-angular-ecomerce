@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterModule, Routes } from '@angular/router';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule, AuthGuard } from '@auth0/auth0-angular';
@@ -32,18 +32,26 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
 
+function sendToLoginPage(auth: AuthGuard, injector: Injector) {
+  // Use injector to access any service available within your application
+  const router = injector.get(Router);
+  // Redirect the user to your login page
+  router.navigate(['/login']);
+}
+
 const routes: Routes = [
   // Protected routes start
   {
     path: 'members',
     component: MembersPageComponent,
     canActivate: [AuthGuard],
+    data: { onAuthRequired: sendToLoginPage }, // Use the sendToLoginPage function or variable
   },
   {
     path: 'order-history',
     component: OrderHistoryComponent,
     canActivate: [AuthGuard],
-    // data: {onAuthRequired: sendToLoginPage}
+    data: { onAuthRequired: sendToLoginPage },
   },
   // Protected routes end
 
