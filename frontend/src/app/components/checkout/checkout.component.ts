@@ -38,6 +38,8 @@ export class CheckoutComponent implements OnInit {
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
+  storage: Storage = sessionStorage;
+
   constructor(
     private formBuilder: FormBuilder,
     private luv2ShopFromService: Luv2ShopFormService,
@@ -47,6 +49,9 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail') as string);
+
     // build the form
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -60,7 +65,7 @@ export class CheckoutComponent implements OnInit {
           Validators.minLength(2),
           Luv2ShopValidators.notOnlyWhitespace,
         ]),
-        email: new FormControl('', [
+        email: new FormControl(theEmail, [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ]),
@@ -128,11 +133,9 @@ export class CheckoutComponent implements OnInit {
 
     // populate credit card months
     const startMonth: number = new Date().getMonth() + 1;
-    console.log('startMonth: ' + startMonth);
     this.luv2ShopFromService
       .getCreditCardMonths(startMonth)
       .subscribe((data) => {
-        console.log({ 'Retrieved credit card months: ': JSON.stringify(data) });
         this.creditCardMonths = data;
       });
 
