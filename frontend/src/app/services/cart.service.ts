@@ -113,12 +113,5 @@ export class CartService {
       };
       items.push(item);
     }
-
-    console.clear();
-    console.log('Contents of the cart:', {
-      items,
-      totalPrice: totalPriceValue.toFixed(2),
-      totalQuantity: totalQuantityValue,
-    });
   }
 }

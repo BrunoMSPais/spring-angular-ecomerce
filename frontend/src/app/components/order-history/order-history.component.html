@@ -1,0 +1,32 @@
+<div class="col col-md-10 offset-md-1 pt-5">
+  <h3 class="row my-5">Your Orders</h3>
+
+  <div class="row" *ngIf="orderHistoryList.length > 0">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th width="60%">Order Tracking Number</th>
+          <th class="text-center" width="10%">Total Price</th>
+          <th class="text-center" width="10%">Total Quantity</th>
+          <th class="text-center" width="20%">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tempOrderEvent of orderHistoryList">
+          <td>{{ tempOrderEvent.orderTrackingNumber }}</td>
+          <td class="text-center">
+            {{ tempOrderEvent.totalPrice | currency : "USD" }}
+          </td>
+          <td class="text-center">{{ tempOrderEvent.totalQuantity }}</td>
+          <td class="text-center">
+            {{ tempOrderEvent.dateCreated | date : "medium" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="orderHistoryList.length == 0">
+    <div class="alert alert-info">You have no orders</div>
+  </div>
+</div>

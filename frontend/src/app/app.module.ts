@@ -27,6 +27,7 @@ import { SearchComponent } from './components/search/search.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductService } from './services/product.service';
 import { AppComponent } from './app.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -37,6 +38,12 @@ const routes: Routes = [
     path: 'members',
     component: MembersPageComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'order-history',
+    component: OrderHistoryComponent,
+    canActivate: [AuthGuard],
+    // data: {onAuthRequired: sendToLoginPage}
   },
   // Protected routes end
 
@@ -69,6 +76,7 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

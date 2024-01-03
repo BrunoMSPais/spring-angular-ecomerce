@@ -11,8 +11,10 @@ import { map, take } from 'rxjs';
   styleUrl: './login-status.component.css',
 })
 export class LoginStatusComponent implements OnInit {
-  isAuthenticated: boolean | undefined = false;
+  isAuthenticated: boolean = false;
   userFullName: string | null = null;
+
+  storage: Storage = sessionStorage;
 
   constructor(
     @Inject(DOCUMENT) public document: Document,
@@ -20,18 +22,23 @@ export class LoginStatusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe(
-      (isAuthenticated) => (this.isAuthenticated = isAuthenticated)
-    );
-    this.getUserDetails();
+    this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuthenticated = isAuthenticated;
+      this.getUserDetails();
+    });
   }
 
   getUserDetails() {
-    if (this.isAuthenticated) {
-      this.auth.user$.subscribe(
-        (user) => (this.userFullName = user?.name as string)
-      );
-    }
+    this.auth.user$.subscribe((res) => {
+      // Fetch the logged in user details (user's claims)
+      this.userFullName = res?.name as string;
+
+      // retrieve the user's email from authentication response
+      const theEmail: string = res?.email as string;
+
+      // store the user's email in browser's local storage
+      this.storage.setItem('userEmail', JSON.stringify(theEmail));
+    });
   }
 
   logout() {

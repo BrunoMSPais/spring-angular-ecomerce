@@ -242,7 +242,7 @@ section {
 }
 
 .au-input-xl {
-  min-width: 700px;
+  width: 350px;
 }
 
 input.au-input.au-input-xl {
