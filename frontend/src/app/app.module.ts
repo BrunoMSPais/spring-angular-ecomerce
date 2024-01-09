@@ -1,9 +1,9 @@
 import { Injector, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule, Routes } from '@angular/router';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
@@ -12,8 +12,14 @@ import {
 } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 
+// configurations imports
 import myAppConfig from './config/my-app-config';
 
+// services imports
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { ProductService } from './services/product.service';
+
+// components imports
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
@@ -25,12 +31,13 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { SearchComponent } from './components/search/search.component';
 import { LoginComponent } from './components/login/login.component';
-import { ProductService } from './services/product.service';
 import { AppComponent } from './app.component';
 
+// Okta configuration
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
 
+// Helper function to redirect to login page if the user is not authenticated
 function sendToLoginPage(oktaAuth: OktaAuthGuard, injector: Injector) {
   // Use injector to access any service available within your application
   const router = injector.get(Router);
@@ -39,6 +46,7 @@ function sendToLoginPage(oktaAuth: OktaAuthGuard, injector: Injector) {
   router.navigate(['/login']);
 }
 
+// Routes
 const routes: Routes = [
   // Protected routes start
   {
@@ -71,6 +79,7 @@ const routes: Routes = [
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ];
 
+// @NgModule decorator with its metadata
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +103,15 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule,
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
+  providers: [
+    ProductService,
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
