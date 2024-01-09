@@ -12,7 +12,7 @@ export class CartService {
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
-  storage: Storage = localStorage;
+  storage: Storage = sessionStorage;
 
   constructor() {
     // read data from storage
@@ -95,7 +95,7 @@ export class CartService {
     this.totalQuantity.next(totalQuantityValue);
 
     // log cart data just for debugging purposes
-    this.logCartData(totalPriceValue, totalQuantityValue);
+    // this.logCartData(totalPriceValue, totalQuantityValue);
 
     // persist cart data
     this.persistCartItems();
@@ -113,5 +113,8 @@ export class CartService {
       };
       items.push(item);
     }
+
+    // ! DO NOT REMOVE THIS LOG! Instead, remove (or comment) the reference to this method.
+    console.log('CART SERVICE - Contents of the cart:', ...items);
   }
 }

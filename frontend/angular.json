@@ -23,6 +23,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@babel/runtime-corejs3",
+              "cross-fetch",
+              "p-cancelable",
+              "tiny-emitter",
+              "detect-node",
+              "@okta/okta-signin-widget"
+            ],
             "outputPath": "dist/angular-ecomerce",
             "index": "src/index.html",
             "browser": "src/main.ts",

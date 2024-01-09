@@ -1,22 +1,22 @@
 import { Injector, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { AuthModule, AuthGuard } from '@auth0/auth0-angular';
+import { Router, RouterModule, Routes } from '@angular/router';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
-  OktaCallbackComponent,
   OktaAuthModule,
+  OktaCallbackComponent,
 } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 import myAppConfig from './config/my-app-config';
-import OktaAuth from '@okta/okta-auth-js';
 
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
 import { MembersPageComponent } from './components/members-page/members-page.component';
@@ -27,14 +27,14 @@ import { SearchComponent } from './components/search/search.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductService } from './services/product.service';
 import { AppComponent } from './app.component';
-import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
 
-function sendToLoginPage(auth: AuthGuard, injector: Injector) {
+function sendToLoginPage(oktaAuth: OktaAuthGuard, injector: Injector) {
   // Use injector to access any service available within your application
   const router = injector.get(Router);
+
   // Redirect the user to your login page
   router.navigate(['/login']);
 }
@@ -44,13 +44,13 @@ const routes: Routes = [
   {
     path: 'members',
     component: MembersPageComponent,
-    canActivate: [AuthGuard],
+    canActivate: [OktaAuthGuard],
     data: { onAuthRequired: sendToLoginPage }, // Use the sendToLoginPage function or variable
   },
   {
     path: 'order-history',
     component: OrderHistoryComponent,
-    canActivate: [AuthGuard],
+    canActivate: [OktaAuthGuard],
     data: { onAuthRequired: sendToLoginPage },
   },
   // Protected routes end
@@ -93,13 +93,6 @@ const routes: Routes = [
     NgbModule,
     ReactiveFormsModule,
     OktaAuthModule,
-    AuthModule.forRoot({
-      domain: oktaConfig.domain,
-      clientId: oktaConfig.clientId,
-      authorizationParams: {
-        redirect_uri: oktaConfig.redirectUri,
-      },
-    }),
   ],
   providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
   bootstrap: [AppComponent],

@@ -1,9 +1,6 @@
-import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { OKTA_AUTH, OktaAuthStateService } from '@okta/okta-angular';
-import OktaAuth from '@okta/okta-auth-js';
-import { map, take } from 'rxjs';
+import { OktaAuth } from '@okta/okta-auth-js';
 
 @Component({
   selector: 'app-login-status',
@@ -12,36 +9,40 @@ import { map, take } from 'rxjs';
 })
 export class LoginStatusComponent implements OnInit {
   isAuthenticated: boolean = false;
-  userFullName: string | null = null;
+  userFullName: string = '';
 
   storage: Storage = sessionStorage;
 
   constructor(
-    @Inject(DOCUMENT) public document: Document,
-    public auth: AuthService
+    private oktaAuthService: OktaAuthStateService,
+    @Inject(OKTA_AUTH) private oktaAuth: OktaAuth
   ) {}
 
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
-      this.isAuthenticated = isAuthenticated;
+    // Subscribe to authentication state changes
+    this.oktaAuthService.authState$.subscribe((result) => {
+      this.isAuthenticated = result.isAuthenticated!;
       this.getUserDetails();
     });
   }
 
   getUserDetails() {
-    this.auth.user$.subscribe((res) => {
-      // Fetch the logged in user details (user's claims)
-      this.userFullName = res?.name as string;
+    if (this.isAuthenticated) {
+      this.oktaAuth.getUser().then((res) => {
+        // Fetch the logged in user details (user's claims)
+        this.userFullName = res.name!;
 
-      // retrieve the user's email from authentication response
-      const theEmail: string = res?.email as string;
+        // retrieve the user's email from authentication response
+        const theEmail: string = res.email!;
 
-      // store the user's email in browser's local storage
-      this.storage.setItem('userEmail', JSON.stringify(theEmail));
-    });
+        // store the user's email in browser's local storage
+        this.storage.setItem('userEmail', JSON.stringify(theEmail));
+      });
+    }
   }
 
   logout() {
-    this.auth.logout();
+    // Terminates the session with Okta and removes current tokens.
+    this.oktaAuth.signOut();
   }
 }
