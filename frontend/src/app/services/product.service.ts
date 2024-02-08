@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 
 import { ProductCategory } from '../common/product-category';
 import { Product } from '../common/product';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private categoryUrl = 'http://localhost:8080/api/product-category';
-  private baseUrl = 'http://localhost:8080/api/products';
+  private categoryUrl = environment.luv2shopApiUrl + '/product-category';
+  private baseUrl = environment.luv2shopApiUrl + '/products';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -29,6 +30,8 @@ export class ProductService {
     const searchUrl = categoryId
       ? `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
       : this.baseUrl; // URL for the first 100 products including all categories
+
+    console.log(`Getting products from - ${searchUrl}`);
 
     return this.getProducts(searchUrl);
   }
