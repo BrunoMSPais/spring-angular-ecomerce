@@ -7,4 +7,5 @@ public class PaymentInfo {
 
 	private String currency;
 	private int amount;	// in cents
+	private String receiptEmail;
 }
