@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
     public CheckoutServiceImpl(CustomerRepository customerRepository) {
@@ -34,7 +34,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         // populate order with orderItems
         Set<OrderItem> orderItems = purchase.getOrderItems();
-        orderItems.forEach(item -> order.add(item));
+        orderItems.forEach(order::add);
 
         // populate order with billingAddress and shippingAddress
         order.setBillingAddress(purchase.getBillingAddress());
@@ -64,9 +64,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     private String generateOrderTrackingNumber() {
         // generate a random UUID number (UUID version-4)
         // For details see: https://en.wikipedia.org/wiki/Universally_unique_identifier
-        String uuid = UUID.randomUUID().toString();
 
-        // check if the UUID is unique in the orders database
+		// check if the UUID is unique in the orders database
         // if not unique, then regenerate UUID
         // if unique, then return the UUID
         /*
@@ -81,6 +80,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
         */
 
-        return uuid;
+        return UUID.randomUUID().toString();
     }
 }

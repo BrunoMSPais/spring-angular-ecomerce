@@ -10,5 +10,9 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface StateRepository extends JpaRepository<State, Integer> {
+    /**
+     * @param code the country code
+     * @return the list of states for a given country code
+     */
     List<State> findByCountryCode(@Param("code") String code);
 }

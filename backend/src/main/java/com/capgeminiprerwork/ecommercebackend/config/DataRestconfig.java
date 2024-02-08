@@ -10,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ class DataRestConfig implements RepositoryRestConfigurer {
     @Value("${allowed.origins}")
     private String[] theAllowedOrigins;
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public DataRestConfig(EntityManager theEntityManager) {  entityManager = theEntityManager; }
@@ -64,9 +63,7 @@ class DataRestConfig implements RepositoryRestConfigurer {
         List<Class> entityClasses = new ArrayList<>();
 
         // - get the entity types for the entities
-        for (EntityType tempEntityType : entities) {
-            entityClasses.add(tempEntityType.getJavaType());
-        }
+        for (EntityType tempEntityType : entities) entityClasses.add(tempEntityType.getJavaType());
 
         // - expose the entity ids for the array of entity/domain types
         Class[] domainTypes = entityClasses.toArray(new Class[0]);
